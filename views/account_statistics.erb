@@ -1,0 +1,46 @@
+<div class="row-fluid">
+	<div class="span2">
+	<table class="table table-bordered" style="margin-top:30px;width:100%;">
+		<tr>
+			<td style="text-align:center;">
+				<ul class="nav nav-pills nav-stacked" style="margin:0px;">
+					<li id="nav-messages"><a href="/account/<%=@authorized_user.name%>/messages">Messages</a></li>
+					<li id="nav-profile"><a href="/account/<%=@authorized_user.name%>/profile">Profile</a></li>
+					<li id="nav-settings"><a href="/account/<%=@authorized_user.name%>/settings">Settings</a></li>
+					<li id="nav-statistics"><a href="/account/<%=@authorized_user.name%>/statistics">Statistics</a></li>
+					<%if @admin.nil? == false%>
+						<li id="nav-users"><a href="/account/<%=@authorized_user.name%>/users">Users</a></li>
+					<%end%>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<div class="span10">
+		<table class="table table-bordered" style="margin-top:30px;">
+			<tr>
+				<td>
+					<table class="norm">
+						<%aggregate ||= 0%>
+						<%completed ||= @user.tasks.all(:completed => true).count%>
+						<%@user.tasks.all(:completed => true).each do |task|%>
+							<%aggregate = task.difficulty + aggregate%>
+						<%end%>
+						<tr>
+							<td>Total Tasks Done:</td> 
+							<td><%=completed%></td>
+						</tr>
+						<tr>
+							<td>Aggregate Difficulty:</td> 
+							<td><%=aggregate%></td>
+						</tr>
+						<tr>
+							<td>Average Difficulty:</td> 
+							<td><%=completed != 0 ? (aggregate.to_f / completed.to_f) : 0%></td>
+						</tr>
+					</table>
+				</td>
+			</tr>	
+		</table>
+	</div>
+</div>

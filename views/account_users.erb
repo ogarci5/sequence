@@ -1,0 +1,147 @@
+<div class="modal hide fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addUserLabel">Add User</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/users/create" method="post">
+  	<div class="control-group">
+		  <label class="control-label">Username:</label>
+		  <div class="controls">
+		    <input type="text" name="name">
+		  </div>
+		</div>
+		<div class="control-group">
+    	<label class="control-label">Password:</label>
+    		<div class="controls">
+    			<input type="text" name="password">
+    		</div>
+    </div>
+    <div class="control-group">
+		  <label class="control-label">Full Name:</label>
+		  <div class="controls">
+		    <input style="width:93px;" type="text" name="first_name" placeholder="First Name">
+		    <input style="width:93px;display:inline-block;margin-left:4px;" type="text" name="last_name" placeholder="Last Name">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Address:</label>
+		  <div class="controls">
+		    <input type="text" name="address">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Email:</label>
+		  <div class="controls">
+		    <input type="text" name="email">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Phone:</label>
+		  <div class="controls">
+		    <input type="text" name="phone">
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add">
+  </div>
+  </form>
+</div>
+<%@users.each do |user|%>
+<div class="modal hide fade" id="editUser<%=user.id%>" tabindex="-1" role="diastory" aria-labelledby="editUser<%=user.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editUser<%=user.id%>Label">Edit User</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/users/update/<%=user.id%>" method="post">
+  	<div class="control-group">
+		  <label class="control-label">Username:</label>
+		  <div class="controls">
+		    <input type="text" name="name" value="<%=user.name%>">
+		  </div>
+		</div>
+		<div class="control-group">
+                  <label class="control-label">Password:</label>
+                  <div class="controls">
+                    <input type="text" name="password" value="<%=user.password%>">
+                  </div>
+                </div>
+    <div class="control-group">
+		  <label class="control-label">Full Name:</label>
+		  <div class="controls">
+		    <input style="width:93px;"type="text" name="first_name" placeholder="First Name" value="<%=user.first_name%>">
+		    <input style="width:93px;display:inline-block;margin-left:4px;"type="text" name="last_name" placeholder="Last Name" value="<%=user.last_name%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Address:</label>
+		  <div class="controls">
+		    <input type="text" name="address" value="<%=user.address%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Email:</label>
+		  <div class="controls">
+		    <input type="text" name="email" value="<%=user.email%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Phone:</label>
+		  <div class="controls">
+		    <input type="text" name="phone" value="<%=user.phone%>">
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<%end%>
+<div class="row-fluid">
+	<div class="span2">
+	<table class="table table-bordered" style="margin-top:30px;width:100%;">
+		<tr>
+			<td style="text-align:center;">
+				<ul class="nav nav-pills nav-stacked" style="margin:0px;">
+					<li id="nav-messages"><a href="/account/<%=@authorized_user.name%>/messages">Messages</a></li>
+					<li id="nav-profile"><a href="/account/<%=@authorized_user.name%>/profile">Profile</a></li>
+					<li id="nav-settings"><a href="/account/<%=@authorized_user.name%>/settings">Settings</a></li>
+					<li id="nav-statistics"><a href="/account/<%=@authorized_user.name%>/statistics">Statistics</a></li>
+					<%if @admin.nil? == false%>
+						<li id="nav-users"><a href="/account/<%=@authorized_user.name%>/users">Users</a></li>
+					<%end%>
+				</ul>
+			</td>
+		<tr>
+	</table>
+	</div>
+	<div class="span10">
+		<table class="table table-bordered" style="margin-top:30px;">
+			<tr>
+				<td>
+					<table class="norm">
+						<tr>
+							<th>Username</th>
+							<th>Email</th>
+						</tr>
+						<%@users.each do |user|%>
+							<tr>
+								<td><a href="#editUser<%=user.id%>" data-toggle="modal"><%=user.name%><a></td>
+								<td><%=user.email%></td>
+							</tr>
+						<%end%>
+						<tr>
+							<td></td>
+							<td><a class="btn pull-right btn-small" href="#addUser" data-toggle="modal">Add User</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

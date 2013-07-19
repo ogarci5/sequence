@@ -1,0 +1,27 @@
+<table class="norm">
+	<tr height="46px">
+		<td>Full Name: </td>
+		<td><%=@user_partial.first_name%> <%=@user_partial.last_name%></td>
+	</tr>
+	<tr height="46px">
+		<td>Address: </td>
+		<td><%=@user_partial.address%></td>
+	</tr>
+	<tr height="46px">
+  	<td>Phone: </td>
+  	<td><%=@user_partial.phone%></td>
+	</tr>
+	<tr height="46px">
+  	<td>Email: </td>
+  	<td><%=@user_partial.email%></td>
+	</tr>
+	<tr>
+  	<td></td>
+  	<td><button class="btn pull-right btn-small" onclick="edit();">Edit</button></td>
+	</tr>
+</table>
+<script>
+function edit(){
+	$('#profile').load('/partial/account/add/<%=@user_partial.id%>');
+}
+</script>

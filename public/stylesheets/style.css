@@ -1,0 +1,42 @@
+a {
+	text-decoration: none;
+	color: #000000;
+}
+a:hover {
+	text-decoration: none;
+	color: #39D000;
+}
+.norm tr td {
+	border: 0px solid #ffffff;
+	vertical-align:middle;
+}
+.norm tr td input{
+	margin-bottom: 0px;
+}
+.norm tr th {
+	border: 0px solid #ffffff;
+	vertical-align:middle;
+}
+.norm tr th input{
+	margin-bottom: 0px;
+}
+strong {
+	color:#dddddd;
+}
+.nav-pills > .active > a,
+.nav-pills > .active > a:hover {
+  color: #ffffff;
+  background-color: #369f00;
+}
+a.brand#brand {
+	color:#39D000;
+}
+a.brand#brand:hover {
+	color:#62EA00;
+}
+body {
+	background:#f6f6f6;
+}
+body table {
+	background:#ffffff;
+}

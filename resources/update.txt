@@ -1,0 +1,11 @@
+Task <a href="/stories?task=5&stage=Testing">qwe</a> was completed.
+Story <a href="/stories?story=5&stage=Testing">This is a really long story</a> was completed.
+Task <a href="/stories?task=2&stage=Development">Bukkit</a> was completed.
+Task <a href="/stories?task=5&stage=Production">qwe</a> was completed.
+Story <a href="/stories?story=5&stage=Production">This is a really long story</a> was completed.
+Task <a href="/stories?task=2&stage=Development">asd</a> was completed.
+Story <a href="/stories?story=2&stage=Development">Set up server</a> was completed.
+Task <a href="/stories?task=2&stage=Development">Bukkit</a> was completed.
+Task <a href="/stories?task=2&stage=Development">asd</a> was completed.
+Task <a href="/stories?task=2&stage=Development">Plugins</a> was completed.
+Task <a href="/stories?task=3&stage=Development">Research Drupal</a> was completed.

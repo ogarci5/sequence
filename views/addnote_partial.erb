@@ -1,0 +1,41 @@
+<form method="post" action="/notes/create">
+	<div style="width:80%;margin-left:auto;margin-right:auto;">
+		<table class="norm" style="width:100%;">
+			<tr>
+				<th style="width:45px;">Subject</th>
+				<td><input style="display:inline-block;width:100%;" type="text" name="subject"></td>
+			</tr>
+			<tr>
+				<th style="width:45px;"">Category </th>
+				<td><input style="display:inline-block;width:100%;" type="text" name="category"></td>
+			</tr>
+			<tr>
+				<th style="width:45px;">Client </th>
+				<td>
+					<select style="display:inline-block;width:100%;" name="client">
+					<%@clients.each do |client|%>
+						<option><%=client.last_name%> , <%=client.first_name%></option>
+					<%end%>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th style="width:45px;">Body</th>
+				<td><textarea style="width:100%;height:350px;resize:none;" name="body"></textarea></td>
+			</tr>
+				<td></td>
+				<td>
+					<div class="btn-group">
+  					<a class="btn pull-left btn-small" onclick="remove();">Back</a>
+						<input type="submit" class="btn btn-small">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<script>
+function remove(){
+	$('#addNote').load('/partial/note/remove');
+}
+</script>

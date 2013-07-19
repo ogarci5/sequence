@@ -1,0 +1,13 @@
+sudo add-apt-repository ppa:ubuntu-on-rails/ppa
+sudo apt-get update
+sudo apt-get install gedit-gmate
+sudo apt-get install gedit-plugins
+sudo apt-get install mysql-server
+sudo apt-get install ruby
+sudo apt-get install rubygems
+sudo gem install sinatra
+sudo gem install data_mapper
+sudo apt-get install libmysqlclient-dev
+sudo gem install nokogiri
+sudo gem install dm-mysql-adapter
+sudo gem install sinatra

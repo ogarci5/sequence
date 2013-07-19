@@ -1,0 +1,245 @@
+<style>
+.highlight {
+	background-color:#39D000;
+	color:#ffffff;
+}
+.lit {
+	background-color:#369f00;
+	color:#ffffff;
+}
+.info-table th {
+	border-bottom: 1px solid #dddddd;
+	border-left: 0px solid #ffffff;
+	border-right: 0px solid #ffffff;
+	border-top: 0px solid #ffffff;
+}
+.info-table {
+	border-radius: 0;
+}
+.info-table td {
+	border: 0px solid #ffffff;
+  border-radius: 0;
+}
+#info-data.unbordered, #info-data.unbordered tr, #info-data.unbordered td{
+	-webkit-border-radius: 0 0 0 0;
+	-moz-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+}
+</style>
+<div class="modal hide fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="addClientLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addClientLabel">Add Client</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/clients/create" method="post">
+    <div class="control-group">
+		  <label class="control-label">Full Name:</label>
+		  <div class="controls">
+		    <input style="width:93px;" type="text" name="first_name" placeholder="First Name">
+		    <input style="width:93px;display:inline-block;margin-left:4px;" type="text" name="last_name" placeholder="Last Name">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Address:</label>
+		  <div class="controls">
+		    <input type="text" name="address">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Email:</label>
+		  <div class="controls">
+		    <input type="text" name="email">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Phone:</label>
+		  <div class="controls">
+		    <input type="text" name="phone">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Organization:</label>
+		  <div class="controls">
+		    <input type="text" name="organization">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="comment">Special Comment:</label>
+		  <div class="controls">
+		    <textarea id="comment" name="special_comment" rows="3" style="resize:none;"></textarea>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add">
+  </div>
+  </form>
+</div>
+<%@clients.each do |client|%>
+<div class="modal hide fade" id="editClient<%=client.id%>" tabindex="-1" role="dialog" aria-labelledby="editClient<%=client.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editClient<%=client.id%>Label">Edit Client</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/clients/update/<%=client.id%>" method="post">
+    <div class="control-group">
+		  <label class="control-label">Full Name:</label>
+		  <div class="controls">
+		    <input style="width:93px;"type="text" name="first_name" placeholder="First Name" value="<%=client.first_name%>">
+		    <input style="width:93px;display:inline-block;margin-left:4px;"type="text" name="last_name" placeholder="Last Name" value="<%=client.last_name%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Address:</label>
+		  <div class="controls">
+		    <input type="text" name="address" value="<%=client.address%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Email:</label>
+		  <div class="controls">
+		    <input type="text" name="email" value="<%=client.email%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Phone:</label>
+		  <div class="controls">
+		    <input type="text" name="phone" value="<%=client.phone%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label">Organization:</label>
+		  <div class="controls">
+		    <input type="text" name="organization" value="<%=client.organization%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="comment">Special Comment:</label>
+		  <div class="controls">
+		    <textarea id="comment" name="special_comment" rows="3" style="resize:none;"><%=client.special_comment%></textarea>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<div class="modal hide fade" id="deleteClient<%=client.id%>" tabindex="-1" role="dialog" aria-labelledby="deleteClient<%=client.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="deleteClient<%=client.id%>Label">Delete Client <%=client.first_name%> <%=client.last_name%></h3>
+  </div>
+  <div class="modal-body">
+  	<p>Are you sure you want to delete "<%=client.first_name%> <%=client.last_name%>."</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+    <a class="btn" href="/clients/destroy/<%=client.id%>" aria-hidden="true">Yes</a>
+  </div>
+  </form>
+</div>
+<%end%>
+<div class="row-fluid">
+	<div class="span6">
+		<table class="table table-bordered" style="width:95%;margin-top:30px;margin-left:30px;">
+			<tr>
+				<th rowspan="0">Clients</th>
+			</tr>
+			<tr>
+				<td>
+					<table id="info-header" class="info-table" width="100%">
+						<tr>
+							<th>Name</th>
+							<th>Organization</th>
+							<th>Jobs</th>
+						</tr>
+					</table>
+					<div style="overflow:auto;height:438px;">
+						<table id="info-data" class="info-table unbordered" width="100%" style="height:100%">
+							<%@clients.each do |client|%>
+							<tr style="height:40px;" class="hover" id="client-<%=client.id%>" onclick="show(<%=client.id%>);">
+								<td nowrap="nowrap"><%=client.last_name%> , <%=client.first_name%></td>
+								<td nowrap="nowrap"><%=client.organization%></td>
+								<td nowrap="nowrap">
+									<%client.jobs.each do |job|%>
+										<%=job.name%><br />
+									<%end%>
+								</td>
+								<td nowrap="nowrap">
+									<a href="#deleteClient<%=client.id%>" role="button" data-toggle="modal" class="close pull-right">&times;</a>
+									<a href="#editClient<%=client.id%>" role="button"  data-toggle="modal"><i class="icon-pencil pull-right" style="margin-right:3px;"></i></a>
+								</td>
+							</tr>
+							<%end%>
+							<tr style="height:100%;"><td></td></tr>
+						</table>
+					</div>
+					<table id="info-footer" class="info-table" width="100%">
+						<tr>
+							<td><a href="#addClient" role="button" class="btn btn-small pull-right" data-toggle="modal">Add Client</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="span6">
+		<table class="table table-bordered pull-right" style="width:95%;margin-top:30px;margin-right:30px;height:572px;">
+			<tr>
+				<th rowspan="0">Notes</th>
+			</tr>
+			<tr style="height:100%">
+				<td id="show"></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script>
+function show(id){
+  if($("#client-"+id).hasClass("lit")){
+  	$("tr.hover").switchClass('lit','',150);
+  	$("#show").empty();
+  }
+  else {
+  	$("tr.hover").switchClass('lit','',150);
+  	$("#client-"+id).switchClass('','lit',150);
+  	$("#show").load("/clients/"+id+"/notes");
+  }
+}
+
+$(".hover").hover(function () {
+	if (!$(this).hasClass('animated')) {
+		if(!$(this).hasClass('lit')){
+			$(this).dequeue().stop().switchClass('','highlight',150);
+		}
+	}
+},
+	function () {
+		$(this).addClass('animated').switchClass('highlight','',150, function() {
+			$(this).removeClass('animated').dequeue();
+		});
+});
+$(document).ready(function() {
+	var tableData = $("#info-data tr:first").children();
+	var tdataArray = $.makeArray(tableData);
+	var tableHeader = $("#info-header tr:first").children();
+	var theaderArray = $.makeArray(tableHeader);
+	
+	for(var i=0;i<tdataArray.length-2;i++){
+		$(theaderArray[i]).width($(tdataArray[i]).width());
+	}
+	$(theaderArray[tdataArray.length-1]).width($(tdataArray[tdataArray.length-1]).width());
+	
+	if(getQueryStr("client") != undefined){
+		show(parseInt(getQueryStr("client")));
+	}
+});
+</script>

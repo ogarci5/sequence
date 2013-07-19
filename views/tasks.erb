@@ -1,0 +1,239 @@
+<div class="modal hide fade" id="addTask" tabindex="-1" role="dialog" aria-labelledby="addTaskLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addTaskLabel">Add Task</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/stories/<%=@story.id%>/tasks/create" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="name">Name:</label>
+		  <div class="controls">
+		    <input type="text" id="name" name="name" maxlength="33">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="difficulty">Difficulty:</label>
+		  <div class="controls">
+		    <input type="text" id="difficulty" name="difficulty" style="width:25px;">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="estimate">Time Estimate:</label>
+		  <div class="controls">
+		    <input type="text" id="estimate" name="estimate" style="width:25px;">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="spent">Time Spent:</label>
+		  <div class="controls">
+		    <input type="text" id="spent" name="spent" style="width:25px;">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="description">Description:</label>
+		  <div class="controls">
+		    <textarea id="description" name="description" rows="3" style="resize:none;"></textarea>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="dependency">Dependency:</label>
+		  <div class="controls">
+		    <select id="dependency" name="dependency">
+		    	<option></option>
+		    	<%@stages.each do |stage|%>
+		    		<option><%=stage%></option>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="users">Assigned Users:</label>
+		  <div class="controls">
+		    <select multiple="multiple" size="6" id="users" name="users[]">
+		    	<%@users.each do |user|%>
+		    		<option><%=user.name%></option>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add">
+  </div>
+  </form>
+</div>
+<%@tasks.each do |task|%>
+<div class="modal hide fade" id="editTask<%=task.id%>" tabindex="-1" role="dialog" aria-labelledby="editTask<%=task.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editTask<%=task.id%>Label">Edit Task</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/tasks/update/<%=task.id%>" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="name">Name:</label>
+		  <div class="controls">
+		    <input type="text" id="name" name="name" maxlength="33" value="<%=task.name%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="difficulty">Difficulty:</label>
+		  <div class="controls">
+		    <input type="text" id="difficulty" name="difficulty" style="width:25px;" value="<%=task.difficulty%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="estimate">Time Estimate:</label>
+		  <div class="controls">
+		    <input type="text" id="estimate" name="estimate" style="width:25px;" value="<%=task.time_estimate%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="spent">Time Spent:</label>
+		  <div class="controls">
+		    <input type="text" id="spent" name="spent" style="width:25px;" value="<%=task.time_spent%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="description">Description:</label>
+		  <div class="controls">
+		    <textarea id="description" name="description" rows="3" style="resize:none;"><%=task.description%></textarea>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="dependency">Dependency:</label>
+		  <div class="controls">
+		    <select id="dependency" name="dependency">
+		    	<%@stages.each do |stage|%>
+		    		<%if task.dependency == stage%>
+		    			<option selected="selected"><%=stage%></option>
+		    		<%else%>
+		    			<option><%=stage%></option>
+		    		<%end%>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="users">Assigned Users:</label>
+		  <div class="controls">
+		    <select multiple="multiple" size="6" id="users" name="users[]">
+		    	<%@users.each do |user|%>
+		    		<%if task.users.detect {|taskuser| taskuser.name == user.name} != nil%>
+		    			<option selected="selected"><%=user.name%></option>
+		    		<%else%>
+		    			<option><%=user.name%></option>
+		    		<%end%>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<%end%>
+<table id="info-header-tasks" class="info-table" width="100%">
+	<tr>
+		<th style="cursor:pointer;" onclick="sortTask(<%=params[:sort] == '0' ? 1 : 0%>);">Name</th>
+		<th style="cursor:pointer;" onclick="sortTask(<%=params[:sort] == '2' ? 3 : 2%>);">Difficulty</th>
+		<%if @all%>
+			<th>Dependency</th>
+		<%end%>
+		<th>Users</th>
+		<th style="text-align:right;">Completed</th>
+		<th></th>
+	</tr>
+</table>
+<div style="overflow:auto;height:438px;">
+	<table id="info-data-tasks" class="info-table" width="100%" style="height:100%">
+		<%@tasks.each do |task|%>
+		<%if task.dependency != @story.stage and !@all%>
+			<%next%>
+		<%end%>
+		<tr>
+			<td nowrap="nowrap"><a href="#editTask<%=task.id%>" role="button"  data-toggle="modal"><%=task.name%></a></td>
+			<td nowrap="nowrap" style="text-align:center;"><%=task.difficulty%></td>
+			<%if @all%>
+				<td nowrap="nowrap"><%=task.dependency%></td>
+			<%end%>
+			<td>
+				<%task.users.each do |user|%>
+					<%=user.name%><br />
+				<%end%>
+			</td>
+			<td>
+				<label class="checkbox pull-right">
+					<input type="checkbox" onclick="this.checked ? check(<%=task.id%>) : uncheck(<%=task.id%>)" <%=task.completed ? 'checked="checked"' : ''%> <%=(task.users.detect {|u| u.name == @authorized_user.name}) != nil ? '' : 'disabled="disabled"'%>>
+				</label>
+			</td>
+			<td nowrap="nowrap">
+				<a class="close pull-right" href="/tasks/destroy/<%=task.id%>">&times;</a>
+			</td>
+		</tr>
+		<%end%>
+		<tr style="height:100%"><td></td></tr>
+	</table>
+</div>
+<table id="info-footer" class="info-table" width="100%">
+	<tr>
+		<td>
+		<div class="btn-group pull-right">
+  		<a class="btn btn-small all-tasks">All Tasks</a>
+			<a href="#addTask" role="button" class="btn btn-small pull-right" data-toggle="modal">Add Task</a>
+		</div>
+		</td>
+	</tr>
+</table>
+<script>
+$('a.all-tasks').click(function() {
+	$("#show").load("/stories/<%=@story.id%>/tasks?all=true");
+});
+function sortTask(type){
+	$("#show").load("/stories/<%=@story.id%>/tasks?sort="+type);
+}
+function check(id){
+	$.ajax({
+  	url: "/partial/task/"+id,
+  	type: "POST",
+  	data: {checked : true},
+  	dataType: "html"
+	}).done(function() {
+		window.location.reload();
+		getUpdate();
+	});
+}
+function uncheck(id){
+	$.ajax({
+  	url: "/partial/task/"+id,
+  	type: "POST",
+  	data: {checked : false},
+  	dataType: "html"
+	}).done(function() {
+  	window.location.reload();
+  	getUpdate();
+  });
+}
+$(document).ready(function() {
+	var tableDataTasks = $("#info-data-tasks tr:first").children();
+	var tdataTasksArray = $.makeArray(tableDataTasks);
+	var tableHeaderTasks = $("#info-header-tasks tr:first").children();
+	var theaderTasksArray = $.makeArray(tableHeaderTasks);
+	
+	for(var i=0;i<tdataTasksArray.length-2;i++){
+		$(tdataTasksArray[i]).width(1);
+		if($(theaderTasksArray[i]).width()>$(tdataTasksArray[i]).width()){
+			$(theaderTasksArray[i]).width($(tdataTasksArray[i]).width());
+			$(tdataTasksArray[i]).width($(theaderTasksArray[i]).width());
+		}
+		else{
+			$(theaderTasksArray[i]).width($(tdataTasksArray[i]).width());
+		}
+	}
+	$(tdataTasksArray[tdataTasksArray.length-1]).width($(theaderTasksArray[tdataTasksArray.length-1]).width());
+});
+</script>

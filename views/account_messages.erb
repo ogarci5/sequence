@@ -1,0 +1,110 @@
+<style>
+.info-table th {
+	border-bottom: 1px solid #dddddd;
+	border-left: 0px solid #ffffff;
+	border-right: 0px solid #ffffff;
+	border-top: 0px solid #ffffff;
+}
+.info-table {
+	border-radius: 0;
+}
+.info-table td {
+	border: 0px solid #ffffff;
+  border-radius: 0;
+}
+#info-data.unbordered, #info-data.unbordered tr, #info-data.unbordered td{
+	-webkit-border-radius: 0 0 0 0;
+	-moz-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+}
+a.visited:hover {
+	color: black;
+}
+</style>
+<div class="row-fluid">
+	<div class="span2">
+	<table class="table table-bordered" style="margin-top:30px;width:100%;">
+		<tr>
+			<td style="text-align:center;">
+				<ul class="nav nav-pills nav-stacked" style="margin:0px;">
+					<li id="nav-messages"><a href="/account/<%=@authorized_user.name%>/messages">Messages</a></li>
+					<li id="nav-profile"><a href="/account/<%=@authorized_user.name%>/profile">Profile</a></li>
+					<li id="nav-settings"><a href="/account/<%=@authorized_user.name%>/settings">Settings</a></li>
+					<li id="nav-statistics"><a href="/account/<%=@authorized_user.name%>/statistics">Statistics</a></li>
+					<%if @admin.nil? == false%>
+						<li id="nav-users"><a href="/account/<%=@authorized_user.name%>/users">Users</a></li>
+					<%end%>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<div class="span10">
+		<table class="table table-bordered" style="margin-top:30px;">
+			<tr>
+				<td>
+					<table id="info-header" class="info-table" width="100%">
+						<tr>
+							<th>Subject</th>
+							<th>Body</th>
+						</tr>
+					</table>
+					<div style="overflow:auto;">
+						<table id="info-data" class="info-table unbordered" width="100%" style="height:100%">
+						<%if $messages["#{@authorized_user.id}"].nil?%>
+							<tr style="height:40px;">
+								<td colspan="2" nowrap="nowrap">No messages found.</td>
+							</tr>	
+						<%elsif $messages["#{@authorized_user.id}"].empty?%>
+							<tr style="height:40px;">
+								<td colspan="2" nowrap="nowrap">No messages found.</td>
+							</tr>
+						<%else%>
+							<%$messages["#{@authorized_user.id}"].each do |message|%>
+								<tr style="height:40px;">
+								<%p message["text"]%>
+									<td nowrap="nowrap"><a id="message<%=$messages["#{@authorized_user.id}"].rindex(message)%>" class="message"><%=message["subject"]%></a></td>
+									<td nowrap="nowrap"><%=message["text"].gsub(/\n/,"<br />")%></td>
+								</tr>
+							<%end%>
+						<%end%>
+							<tr style="height:100%;"><td></td></tr>
+						</table>
+					</div>
+					<table style="border-top: 1px solid #DDD" id="info-footer" class="norm" width="100%">
+					</table>
+				</td>
+			</tr>	
+		</table>
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	var tableData = $("#info-data tr:first").children();
+	var tdataArray = $.makeArray(tableData);
+	var tableHeader = $("#info-header tr:first").children();
+	var theaderArray = $.makeArray(tableHeader);
+	
+	for(var i=0;i<tdataArray.length-1;i++){
+		$(theaderArray[i]).width($(tdataArray[i]).width());
+	}
+	$(theaderArray[tdataArray.length-1]).width($(tdataArray[tdataArray.length-1]).width());
+});
+$("a.message").click(function(e) {
+	if(!$(this).hasClass("visited")){
+		$(this).addClass("visited");
+		$.ajax({
+  		url: "/account/message",
+  		type: "POST",
+  		data: {index : $(this).attr("id").replace("message", "")},
+  		dataType: "html"
+		}).done(function() {
+			window.location.reload();
+  		getUpdate();
+  });
+	}
+});
+</script>

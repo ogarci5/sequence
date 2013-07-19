@@ -1,0 +1,98 @@
+<%@notes.each do |note|%>
+<div class="modal hide fade" id="editNote<%=note.id%>" tabindex="-1" role="dialog" aria-labelledby="editNote<%=note.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editNote<%=note.id%>Label">Edit Note</h3>
+  </div>
+  <div class="modal-body">
+	<form method="post" action="/notes/update/<%=note.id%>">
+		<div style=width:80%;margin-left:auto;margin-right:auto;">
+			<table class="norm" style="width:100%;">
+				<tr>
+					<th style="width:50px;">Subject </th>
+					<td><input style="display:inline-block;width:100%;" type="text" name="subject" value="<%=note.subject%>"></td>
+				</tr>
+				<tr>
+					<th style="width:50px;">Category </th>
+					<td><input style="display:inline-block;width:100%;" type="text" name="category" value="<%=note.category%>"></td>
+				</tr>
+				<tr>
+					<th style="width:50px;">Client </th>
+					<td>
+						<select style="display:inline-block;width:100%;" name="client">
+						<%@clients.each do |client|%>
+						<%if note.client.nil? == false%>
+							<%if note.client.id == client.id%>
+							<option selected="selected"><%=client.last_name%> , <%=client.first_name%></option>
+							<%else%>
+							<option><%=client.last_name%> , <%=client.first_name%></option>
+							<%end%>
+						<%end%>
+						<%end%>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th style="width:45px;">Body </th>
+					<td><textarea style="width:100%;height:350px;resize:none;" name="body"><%=note.body%></textarea></td>
+			</table>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<%end%>
+<div class="row-fluid">
+	<div class="span12">
+		<table class="table table-bordered" style="width:80%;margin-top:30px;margin-left:auto;margin-right:auto;">
+			<tr>
+				<th rowspan="0">Notes</th>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%">
+						<tr>
+							<th style="border: 0px solid #ffffff;"></th>
+							<th>Subject</th>
+							<th>Owner</th>
+							<th>Created At</th>
+						</tr>
+						<%@notes.each do |note|%>
+						<%if note.client.nil?%>
+						<tr>
+							<td style="border-left: 0px solid #ffffff;"></td>
+							<td><strong><a href="#editNote<%=note.id%>" data-toggle="modal"><%=note.subject%></a></strong></td>
+							<td><%=note.user.name%></td>
+							<%time = note.created_at.strftime("%m/%d/%Y at %I:%M%p")%>
+							<td>
+								<%=time%>
+								<a href="/notes/destroy/<%=note.id%>" class="close">&times;</a>
+							</td>
+						</tr>
+						<tr>
+							<th style="border-left: 0px solid #ffffff;">Body</th>
+							<td colspan="3"><%=note.body.gsub("\n","<br />")%></td>
+						</tr>
+						<%end%>
+						<%end%>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td id="addNote">
+					<div style="width:100%;margin-left:auto;margin-right:auto;">
+						<a class="btn pull-left" onclick="add();">Add Note</a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script>
+function add(){
+	$('#addNote').load('/partial/note/add');
+}
+</script>

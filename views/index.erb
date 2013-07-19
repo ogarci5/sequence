@@ -1,0 +1,26 @@
+<div class="row-fluid">
+	<div class="span12">
+		<table class="table table-bordered" style="width:80%;margin-top:30px;margin-left:auto;margin-right:auto;">
+			<tr>
+				<th rowspan="0">Updates</th>
+			</tr>
+			<%@updates.reverse_each do |update|%>
+			<tr>
+				<td><%=update%></td>
+			</tr>
+			<%end%>
+			<tr>
+				<td id="addEmail">
+					<div style="width:100%;margin-left:auto;margin-right:auto;">
+						<a class="btn btn-small pull-left" onclick="add();">Email Team</a>
+					</div>
+				</td>
+			</tr>		
+		</table>
+	</div>
+</div>
+<script>
+function add(){
+	$('#addEmail').load('/partial/email_team/add');
+}
+</script>

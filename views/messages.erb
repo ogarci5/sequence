@@ -1,0 +1,1 @@
+Welcome <%=@authorized_user.name%>. <a href="/account/<%=@authorized_user.name%>/messages"><span class="navbar-text label label-important"><%=$messages["#{@authorized_user.id}"].nil? ? 0 : $messages["#{@authorized_user.id}"].count%></span></a>

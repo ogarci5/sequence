@@ -1,0 +1,134 @@
+<div class="modal hide fade" id="addNote" tabindex="-1" role="dialog" aria-labelledby="addNoteLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addNoteLabel">Add Note</h3>
+  </div>
+  <div class="modal-body">
+	<form method="post" action="/notes/create">
+		<div style="width:80%;margin-left:auto;margin-right:auto;">
+			<table class="norm" style="width:100%;">
+				<tr>
+					<th style="width:50px;">Subject </th>
+					<td><input style="display:inline-block;width:100%;" type="text" name="subject"></td>
+				</tr>
+				<tr>
+					<th style="width:50px;">Category </th>
+					<td><input style="display:inline-block;width:100%;" type="text" name="category"></td>
+				</tr>
+				<tr>
+					<th style="width:50px;">Client </th>
+					<td>
+						<select style="display:inline-block;width:100%;" name="client">
+						<%@clients.each do |client|%>
+							<%if @client.id == client.id%>
+							<option selected="selected"><%=client.last_name%> , <%=client.first_name%></option>
+							<%else%>
+							<option><%=client.last_name%> , <%=client.first_name%></option>
+							<%end%>
+						<%end%>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th style="width:45px;">Body </th>
+					<td><textarea style="width:100%;height:350px;resize:none;" name="body"></textarea></td>
+			</table>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<%@notes.each do |note|%>
+<div class="modal hide fade" id="editNote<%=note.id%>" tabindex="-1" role="dialog" aria-labelledby="editNote<%=note.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editNote<%=note.id%>Label">Edit Note</h3>
+  </div>
+  <div class="modal-body">
+	<form method="post" action="/notes/update/<%=note.id%>">
+		<div style=width:80%;margin-left:auto;margin-right:auto;">
+			<table class="norm" style="width:100%;">
+				<tr>
+					<th style="width:50px;">Subject </th>
+					<td><input style="display:inline-block;width:100%;" type="text" name="subject" value="<%=note.subject%>"></td>
+				</tr>
+				<tr>
+					<th style="width:50px;">Category </th>
+					<td><input style="display:inline-block;width:100%;" type="text" name="category" value="<%=note.category%>"></td>
+				</tr>
+				<tr>
+					<th style="width:50px;">Client </th>
+					<td>
+						<select style="display:inline-block;width:100%;" name="client">
+						<%@clients.each do |client|%>
+							<%if @client.id == client.id%>
+							<option selected="selected"><%=client.last_name%> , <%=client.first_name%></option>
+							<%else%>
+							<option><%=client.last_name%> , <%=client.first_name%></option>
+							<%end%>
+						<%end%>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th style="width:45px;">Body </th>
+					<td><textarea style="width:100%;height:350px;resize:none;" name="body"><%=note.body%></textarea></td>
+			</table>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<%end%>
+<table id="info-header-notes" class="info-table" width="100%">
+	<tr>
+		<th>Subject</th>
+		<th>Category</th>
+		<th></th>
+	</tr>
+</table>
+<div style="overflow:auto;height:438px;">
+	<table id="info-data-notes" class="info-table" width="100%" style="height:100%">
+		<%@notes.each do |note|%>
+		<tr style="height:15px;">
+			<td nowrap="nowrap"><a href="#editNote<%=note.id%>" role="button"  data-toggle="modal"><%=note.subject%></a></td>
+			<td nowrap="nowrap"><%=note.category%></td>
+			<td nowrap="nowrap">
+				<a class="close pull-right" href="/notes/destroy/<%=note.id%>">&times;</a>
+			</td>
+		</tr>
+		<%end%>
+		<tr style="height:100%"><td></td></tr>
+	</table>
+</div>
+<table id="info-footer" class="info-table" width="100%">
+	<tr>
+		<td><a href="#addNote" role="button" class="btn btn-small pull-right" data-toggle="modal">Add Note</a></td>
+	</tr>
+</table>
+<script>
+$(document).ready(function() {
+	var tableDataNotes = $("#info-data-notes tr:first").children();
+	var tdataNotesArray = $.makeArray(tableDataNotes);
+	var tableHeaderNotes = $("#info-header-notes tr:first").children();
+	var theaderNotesArray = $.makeArray(tableHeaderNotes);
+	
+	for(var i=0;i<tdataNotesArray.length-1;i++){
+		$(tdataNotesArray[i]).width(1);
+		if($(theaderNotesArray[i]).width()>$(tdataNotesArray[i]).width()){
+			$(theaderNotesArray[i]).width($(tdataNotesArray[i]).width());
+			$(tdataNotesArray[i]).width($(theaderNotesArray[i]).width());
+		}
+		else{
+			$(theaderNotesArray[i]).width($(tdataNotesArray[i]).width());
+		}
+	}
+	$(tdataNotesArray[tdataNotesArray.length]).width(1);
+});
+</script>

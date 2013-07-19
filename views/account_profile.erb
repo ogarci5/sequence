@@ -1,0 +1,77 @@
+<div class="row-fluid">
+	<div class="span2">
+	<table class="table table-bordered" style="margin-top:30px;width:100%;">
+		<tr>
+			<td style="text-align:center;">
+				<ul class="nav nav-pills nav-stacked" style="margin:0px;">
+					<li id="nav-messages"><a href="/account/<%=@authorized_user.name%>/messages">Messages</a></li>
+					<li id="nav-profile"><a href="/account/<%=@authorized_user.name%>/profile">Profile</a></li>
+					<li id="nav-settings"><a href="/account/<%=@authorized_user.name%>/settings">Settings</a></li>
+					<li id="nav-statistics"><a href="/account/<%=@authorized_user.name%>/statistics">Statistics</a></li>
+					<%if @admin.nil? == false%>
+						<li id="nav-users"><a href="/account/<%=@authorized_user.name%>/users">Users</a></li>
+					<%end%>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<div class="span10">
+		<table class="table table-bordered" style="margin-top:30px;">
+			<tr>
+				<td align="center">
+				<div id="profile">
+   				<table class="norm">
+   					<tr height="46px">
+   						<td>Full Name: </td>
+	  					<td><%=@user.first_name%> <%=@user.last_name%></td>
+	  				</tr>
+						<tr height="46px">
+							<td>Address: </td>
+							<td><%=@user.address%></td>
+						</tr>
+						<tr height="46px">
+					  	<td>Phone: </td>
+					  	<td><%=@user.phone%></td>
+						</tr>
+						<tr height="46px">
+					  	<td>Email: </td>
+					  	<td><%=@user.email%></td>
+						</tr>
+						<tr>
+					  	<td></td>
+					  	<td><button class="btn pull-right btn-small" onclick="edit();">Edit</button></td>
+						</tr>
+					</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script>
+function check(){
+	$.ajax({
+  	url: "/partial/account/"+<%=@user.id%>,
+  	type: "POST",
+  	data: {checked : true},
+  	dataType: "html"
+	});
+}
+function uncheck(){
+	$.ajax({
+  	url: "/partial/account/"+<%=@user.id%>,
+  	type: "POST",
+  	data: {checked : false},
+  	dataType: "html"
+	});
+}
+function edit(){
+	$.ajax({
+    url: "/partial/account/update/<%=@user.id%>"
+  }).done(function( html ) {
+  	$("#profile").empty();
+    $("#profile").append(html);
+  });
+}
+</script>

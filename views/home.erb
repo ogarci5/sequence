@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Gtwo Development</title>
+  <meta name="viewport" content="width=device-width">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:900&text=ABCDEFGHIJKLMNOPQRSTUVWXYZ' rel='stylesheet' type='text/css'>
+  <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="/stylesheets/style.css" rel="stylesheet">  
+  <link rel="stylesheet" href="/stylesheets/bigvideo.css">
+  <link rel="stylesheet" href="/stylesheets/index.css">
+</head>
+<body>
+  <div class="nav box" id="nav">
+    <a href="#about" class="nav-link">about us</a>
+    <a href="#services" class="nav-link">services offerred</a>
+    <a href="#testimonials" class="nav-link">testimonials</a>
+    <a href="#contact" class="nav-link">contact us</a>
+    <a href="/login" class="link-nav">sequence</a>
+  </div>
+  <div class="main">
+    <div id="about" class="box">
+  	<h1>Gtwo<span class="dimmed">Development</span></h1>
+  	<h2>about us</h2>
+      <div class="credit"></div>
+      <p>Gtwo Development is a student owned and operated 
+  technology consulting team based in San Antonio and 
+ operating mainly out of College Station, TX.</p>
+    </div>
+    <div id="services" class="box">
+    	<h2>services offerred</h2>
+      <p>Currently we offer the following services:</p>
+      <ul>
+      <li>General Web Development</li>
+      <li>Ruby Development</li>
+      <li>Remote IT Services</li>
+      <li>UI design consultation and development</li>
+      <li>Social media integration</li>
+      </ul>
+      <p>Just to name a few, if you are looking for something a little different, feel free to contact us below to see how we might be able to help.</p>
+    </div>
+    <div id="testimonials" class="box demo">
+    	<h2>testimonials</h2>
+      <div id="contentFlow" class="ContentFlow">
+        <!-- should be place before flow so that contained images will be loaded first -->
+        <div class="loadIndicator"><div class="indicator"></div></div>
+
+        <div class="flow">
+
+            <div class="item">
+                <img href="http://utsabrutesquad.com/" target="_blank" class="content" src="/images/testimonials/testimonial_1.PNG"/>
+                <div class="caption">UTSA Brute Squad</div>
+            </div>
+            <div class="item">
+                <img href="http://sastemic.org/" target="_blank" class="content" src="/images/testimonials/testimonial_2.PNG"/>
+                <div class="caption">SASTEMIC</div>
+            </div>
+            <div class="item">
+                <img href="http://duckinndelavan.com/" target="_blank" class="content" src="/images/testimonials/testimonial_3.PNG"/>
+                <div class="caption">Duck Inn</div>
+            </div>
+            <div class="item">
+                <img target="_blank" class="content" src="/images/testimonials/testimonial_4.PNG"/>
+                <div class="caption">Duck Inn Reservation System</div>
+            </div>
+            <div class="item">
+                <img href="http://alamo-first.org/" target="_blank" class="content" src="/images/testimonials/testimonial_5.PNG"/>
+                <div class="caption">Alamo FIRST</div>
+            </div>
+
+            <div class="item">
+                <img href="http://utsabrutesquad.com/" target="_blank" class="content" src="/images/testimonials/testimonial_1.PNG"/>
+                <div class="caption">UTSA Brute Squad</div>
+            </div>
+            <div class="item">
+                <img href="http://sastemic.org/" target="_blank" class="content" src="/images/testimonials/testimonial_2.PNG"/>
+                <div class="caption">SASTEMIC</div>
+            </div>
+            <div class="item">
+                <img href="http://duckinndelavan.com/" target="_blank" class="content" src="/images/testimonials/testimonial_3.PNG"/>
+                <div class="caption">Duck Inn</div>
+            </div>
+            <div class="item">
+                <img target="_blank" class="content" src="/images/testimonials/testimonial_4.PNG"/>
+                <div class="caption">Duck Inn reservation system</div>
+            </div>
+            <div class="item">
+                <img href="http://alamo-first.org/" target="_blank" class="content" src="/images/testimonials/testimonial_5.PNG"/>
+                <div class="caption">Alamo FIRST</div>
+            </div>
+
+        </div>
+        <div class="globalCaption"></div>
+        <div class="scrollbar">
+            <div class="slider"><div class="position"></div></div>
+        </div>
+
+    </div>
+    </div>
+    <div id="contact" class="box">
+    	<h2>contact us</h2>
+    <form action="/" method="post">
+      <table>
+      <tr height="60px" style="vertical-align:middle;">
+      	<td>Name:</td>
+      	<td><input style="opacity: .5;" type="text" name="name" id="name"></td>
+      </tr>
+      <tr height="60px" style="vertical-align:middle;">
+      	<td>Email:</td>
+      	<td><input style="opacity: .5;" type="text" name="email" id="email"></td>
+      </tr>
+      <tr>
+      	<td>Inquiry:</td>
+      	<td><textarea style="resize:none;width:700px;opacity: .5;" rows="18" name="inquiry" id="inquiry"></textarea></td>
+      </tr>
+      <tr >
+        <td></td>
+        <td><input type="submit" class="btn btn-info pull-right" value="Submit"></td>
+      </tr>
+      </table>
+    </form>
+    </div>
+    <script src="/javascripts/jquery/jquery-1.7.2.min.js"></script>
+		<!-- BigVideo Dependencies -->
+		<script src="/javascripts/jquery/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="/javascripts/jquery/jquery-1.7.2.min.js"><\/script>')</script>
+        <script src="/javascripts/jquery/jquery-ui-1.8.22.custom.min.js"></script>
+        <script src="/javascripts/jquery/jquery.imagesloaded.min.js"></script>
+        <script src="http://vjs.zencdn.net/c/video.js"></script>
+
+    <!-- BigVideo -->
+    <script src="/javascripts/bigvideo.js"></script>
+    
+    <!-- Demo -->
+    <script src="/javascripts/jquery/jquery.scrollTo.js"></script>
+    <script>
+        var BV;
+	    $(function() {
+            
+            // initialize BigVideo
+            BV = new $.BigVideo();
+			BV.init();
+			BV.show('http://d05136c64e99dadd56ef-62bee2cc421c20640315560469072f59.r1.cf1.rackcdn.com/c5f57fc08eceff5997a8d87cf166f123.mp4',{ambient:true});
+
+            // Playlist button click starts video
+            $('.playlist-btn').on('click', function(e) {
+                e.preventDefault();
+                BV.show($(this).attr('href'));
+            })
+
+            // Video Play/Pause toggle
+            $('#video-toggle').on('click', function(e) {
+                if (this.checked)   BV.getPlayer().play();
+                else                BV.getPlayer().pause();
+            })
+
+            // set up navigation
+            $('.nav-link').on('click',function(e){
+                e.preventDefault();
+                scrollToSection($(this).attr('href'));
+            })
+
+            function scrollToSection(id) {
+                $(window)._scrollable().stop();
+                $(window).scrollTo(id, {
+                    duration: 300,
+                    offset: -50,
+                    // easeInOutQuad
+                    easing: function(x,t,b,c,d){if((t/=d/2)<1) return c/2*t*t+b;return -c/2*((--t)*(t-2)-1)+b;}
+                });
+            }
+	    });
+    </script>
+    <script language="JavaScript" type="text/javascript" src="/javascripts/contentflow.js"></script>
+    <script style="text/javascript">
+        var cf = new ContentFlow('contentFlow', {reflectionColor: "#000000"});
+    </script>
+
+</body>
+</html>

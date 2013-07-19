@@ -1,0 +1,196 @@
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+<div class="modal hide fade" id="addInvoice" tabindex="-1" role="dialog" aria-labelledby="addInvoiceLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addInvoiceLabel">Add Invoice</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/jobs/<%=@job.id%>/invoices/create" method="post">
+		<div class="control-group">
+			<label class="control-label" for="category">Labor Category: </label>
+		  <div class="controls">
+		    <input type="text" id="category" name="category">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="business_rate">Business Rate: </label>
+		  <div class="controls">
+		    <select name="business_rate">
+		    	<option>Time and Materials</option>
+		    	<option>Flat Rate</option>
+		    </select>
+		  </div>
+		</div>
+		<%t = Time.now%>
+		<div class="control-group">
+		  <label class="control-label" for="FY<%=t.year-2000%>hours">FY<%=t.year-2000%> Estimated Hours: </label>
+		  <div class="controls">
+		    <input type="text" id="FY<%=t.year-2000%>hours" name="FY1hours" style="width:40px;">
+		  </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="FY<%=t.year-2000%>rate">FY<%=t.year-2000%> Rate: </label>
+		  <div class="controls">
+		    <input type="text" id="FY<%=t.year-2000%>rate" name="FY1rate" style="width:40px;">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="FY<%=t.year-1999%>hours">FY<%=t.year-1999%> Estimated Hours: </label>
+		  <div class="controls">
+		    <input type="text" id="FY<%=t.year-1999%>hours" name="FY2hours" style="width:40px;">
+		  </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="FY<%=t.year-1999%>rate">FY<%=t.year-1999%> Rate: </label>
+		  <div class="controls">
+		    <input type="text" id="FY<%=t.year-1999%>rate" name="FY2rate" style="width:40px;">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="travel">Travel Costs: </label>
+		  <div class="controls">
+		    <input type="text" id="travel" name="travel" style="width:40px;">
+		    <span>%</span>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="host">Hosting: </label>
+		  <div class="controls">
+		    <input type="text" id="host" name="host" style="width:40px;">
+		    <span>/</span>
+		    <select name="host_rate" style="width:100px;">
+		    	<option>Hour</option>
+		    	<option>Month</option>
+		    	<option>Quarter</option>
+		    	<option>Half Year</option>
+		    	<option>Year</option>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="total">Flat Total: </label>
+		  <div class="controls">
+		    <input type="text" id="flat" name="flat" style="width:50px;">
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add">
+  </div>
+  </form>
+</div>
+<%if !@invoice.nil?%>
+<div class="modal hide fade" id="editInvoice<%=@invoice.id%>" tabindex="-1" role="dialog" aria-labelledby="editInvoice<%=@invoice.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editInvoice<%=@invoice.id%>Label">Edit Invoice</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/invoices/update/<%=@invoice.id%>" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="category">Labor Category: </label>
+		  <div class="controls">
+		    <input type="text" id="category" name="category" value="<%=@invoice.labor_category%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="host">Date: </label>
+		  <div class="controls">
+		    <input type="text" name="month" style="width:40px;" value="<%=@invoice.date.month%>">
+		    <span>/</span>
+		    <input type="text" name="day" style="width:40px;" value="<%=@invoice.date.day%>">
+		    <span>/</span>
+		    <input type="text" name="year" style="width:40px;" value="<%=@invoice.date.year%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="business_rate">Business Rate: </label>
+		  <div class="controls">
+		    <select name="business_rate">
+		    	<option <%=@invoice.business_rate == :Time_and_Materials ? 'selected="selected"' : ''%>>Time and Materials</option>
+		    	<option <%=@invoice.business_rate == :Flat_Rate ? 'selected="selected"' : ''%>>Flat Rate</option>
+		    </select>
+		  </div>
+		</div>
+		<%@invoice.fiscal_years.each do |fy|%>
+		<div class="control-group">
+		  <label class="control-label" for="FY<%=fy.year-2000%>hours">FY<%=fy.year-2000%> Estimated Hours: </label>
+		  <div class="controls">
+		    <input type="text" id="FY<%=fy.year-2000%>hours" name="FY1hours" style="width:40px;" value="<%=fy.estimated_hours%>">
+		  </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="FY<%=fy.year-2000%>rate">FY<%=fy.year-2000%> Rate: </label>
+		  <div class="controls">
+		    <input type="text" id="FY<%=fy.year-2000%>rate" name="FY1rate" style="width:40px;" value="<%=fy.client_rate%>">
+		  </div>
+		</div>
+		<%end%>
+		<div class="control-group">
+		  <label class="control-label" for="travel">Travel Costs: </label>
+		  <div class="controls">
+		    <input type="text" id="travel" name="travel" style="width:40px;" value="<%=@invoice.travel_cost%>">
+		    <span>%</span>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="host">Hosting: </label>
+		  <div class="controls">
+		    <input type="text" id="host" name="host" style="width:40px;" value="<%=@invoice.hosting%>">
+		    <span>/</span>
+		    <select name="host_rate" style="width:100px;">
+		    	<option <%=@invoice.hosting_rate == :Hour ? 'selected="selected"' : ''%>>Hour</option>
+		    	<option <%=@invoice.hosting_rate == :Month ? 'selected="selected"' : ''%>>Month</option>
+		    	<option <%=@invoice.hosting_rate == :Quarter ? 'selected="selected"' : ''%>>Quarter</option>
+		    	<option <%=@invoice.hosting_rate == :HalfYear ? 'selected="selected"' : ''%>>Half Year</option>
+		    	<option <%=@invoice.hosting_rate == :Year ? 'selected="selected"' : ''%>>Year</option>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="total">Flat Total: </label>
+		  <div class="controls">
+		    <input type="text" id="flat" name="flat" style="width:50px;" value="<%=@invoice.total_cost%>">
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<div class="modal hide fade" id="deleteInvoice<%=@invoice.id%>" tabindex="-1" role="dialog" aria-labelledby="deleteInvoice<%=@invoice.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="deleteInvoice<%=@invoice.id%>Label">Delete Invoice <%=@invoice.id%></h3>
+  </div>
+  <div class="modal-body">
+  	<p>Are you sure you want to delete Invoice <%=@invoice.id%>?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+    <a class="btn" href="/invoices/destroy/<%=@invoice.id%>" aria-hidden="true">Yes</a>
+  </div>
+  </form>
+</div>
+<%end%>
+<div style="overflow:auto;height:475px;">
+<%if !@invoice.nil?%>
+<a href="/invoices/invoice-<%=@invoice.id%>.png?rand=<%=rand(100000000)%>" target="blank"><img src="/invoices/invoice-<%=@invoice.id%>.png?rand=<%=rand(100000000)%>" alt="Invoice"/></a>
+<%end%>
+</div>
+<table id="info-footer" class="info-table" width="100%">
+	<tr>
+		<td>
+		<%if @invoice.nil?%>
+			<a href="#addInvoice" role="button" class="btn btn-small pull-right" data-toggle="modal">Add Invoice</a>
+		<%else%>
+			<a href="#editInvoice<%=@invoice.id%>" role="button" class="btn btn-small pull-right" data-toggle="modal">Edit Invoice</a>
+		<%end%>
+		</td>
+	</tr>
+</table>

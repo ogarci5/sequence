@@ -1,0 +1,97 @@
+<div class="modal hide fade" id="addLog" tabindex="-1" role="dialog" aria-labelledby="addLogLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addLogLabel">Add Log Item</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/logs/create" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="name">Name:</label>
+		  <div class="controls">
+		    <input type="text" id="name" name="name">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="description">Description:</label>
+		  <div class="controls">
+		    <textarea id="description" name="description" rows="3" style="resize:none;"></textarea>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add">
+  </div>
+  </form>
+</div>
+<%@logitems.each do |log|%>
+<div class="modal hide fade" id="editLog<%=log.id%>" tabindex="-1" role="dialog" aria-labelledby="editLog<%=log.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editLog<%=log.id%>Label">Edit Log Item</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/logs/update/<%=log.id%>" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="name">Name:</label>
+		  <div class="controls">
+		    <input type="text" id="name" name="name" value="<%=log.name%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="description">Description:</label>
+		  <div class="controls">
+		    <textarea id="description" name="description" rows="3" style="resize:none;"><%=log.description%></textarea>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<%end%>
+<script>
+function collapse(id){
+	if($("#icon"+id).hasClass('icon-plus-sign') == true){
+  	$("#tasks"+id).load("/partial/log/tasks/"+id);
+  	$("#icon"+id).removeClass('icon-plus-sign').addClass('icon-minus-sign');
+  }
+  else{
+  	$("#tasks"+id).empty();
+  	$("#icon"+id).removeClass('icon-minus-sign').addClass('icon-plus-sign');
+  }
+}
+</script>
+<div class="row-fluid">
+	<div class="span12">
+		<table class="table table-bordered" style="width:80%;margin-top:30px;margin-left:auto;margin-right:auto;">
+			<tr>
+				<th rowspan="0">Log Items</th>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%">
+						<tr>
+							<th>Name</th>
+							<th>Owner</th>
+							<th>Last Updated</th>
+						</tr>
+						<%@logitems.each do |log|%>
+						<tr>
+							<td><i id="icon<%=log.id%>" class="icon-plus-sign" onclick="collapse(<%=log.id%>)"></i> <a href="#editLog<%=log.id%>" role="button"  data-toggle="modal"><%=log.name%></a></td>
+							<td><%=log.created_by%></td>
+							<td><%=log.updated_at.strftime("%m/%d/%Y at %I:%M%p")%></td>
+						</tr>
+						<tr id="tasks<%=log.id%>" style="margin-left:15px;"></tr>
+						<%end%>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td><a href="#addLog" role="button" class="btn" data-toggle="modal">Add Log</a></td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/stylesheets/style.css" rel="stylesheet">
+<title>Gtwo Sequence</title>
+<script src="/javascripts/jquery/jquery-latest.js"></script>
+<script src="/javascripts/jquery/jquery-ui-1.9.1.custom.js"></script>
+<script src="/javascripts/jquery/jquery-ui-1.9.1.custom.min.js"></script>
+<script src="/javascripts/barColor.js"></script>
+<script src="/javascripts/queryString.js"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+</head>
+<script>
+function activenav(){
+	if(/\/clients/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#clients").addClass("active");
+	}
+	else if(/\/stories/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#stories").addClass("active");
+	}
+	else if(/\/jobs/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#jobs").addClass("active");
+	}
+	else if(/\/notes/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#notes").addClass("active");
+	}
+	else if(/\/status/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#status").addClass("active");
+	}
+	else if(/\/dev/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#dev").addClass("active");
+	}
+	else if(/\/messages/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("ul.nav-stacked li").removeClass("active");
+		$("#nav-messages").addClass("active");
+	}
+	else if(/\/profile/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("ul.nav-stacked li").removeClass("active");
+		$("#nav-profile").addClass("active");
+	}
+	else if(/\/settings/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("ul.nav-stacked li").removeClass("active");
+		$("#nav-settings").addClass("active");
+	}
+	else if(/\/statistics/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("ul.nav-stacked li").removeClass("active");
+		$("#nav-statistics").addClass("active");
+	}
+	else if(/\/users/g.test(window.location.pathname)){
+		$("ul.nav#main-nav li").removeClass("active");
+		$("ul.nav-stacked li").removeClass("active");
+		$("#nav-users").addClass("active");
+	}
+	else{
+		$("ul.nav#main-nav li").removeClass("active");
+		$("#home").addClass("active");
+	}
+}
+
+$(getUpdate);
+function getUpdate(){
+  $("p.navbar-text").load("/partial/messages");
+  setTimeout(getUpdate,30000);
+}
+</script>
+<body onload="activenav();">
+	<div class="navbar navbar-static-top navbar-inverse">
+ 		<div class="navbar-inner">
+   		<a id="brand" class="brand" href="/" style="padding-top:0px;margin-top:2px;padding-bottom:0px;margin-bottom:0px;"><img src="/images/gtwo.png" alt="" style="height:36px;"> Development</a>
+   		<ul id="#main-nav" class="nav">
+ 		    <li id="home"><a href="/sequence">Sequence</a></li>
+ 		    <li id="clients"><a href="/clients">Clients</a></li>
+	      <li id="jobs"><a href="/jobs">Jobs</a></li>
+	      <li id="stories"><a href="/stories">Stories</a></li>
+	      <li id="notes"><a href="/notes">Notes</a></li>
+	      <li id="status"><a href="/status">Status</a></li>
+	      <%if @admin.nil? == false%>
+					<li id="dev"><a href="/dev">Dev</a></li>
+				<%end%>
+	    </ul>
+			<ul class="nav pull-right">
+	      <li id="account"><a href="/account/<%=@authorized_user.name%>/profile">Account</a></li>
+	      <li><a href="/logout">Logout</a></li>
+	    </ul>
+	    <p class="navbar-text pull-right">Welcome <%=@authorized_user.name%>. <a href="/account/<%=@authorized_user.name%>/messages"><span class="navbar-text label label-important"><%=$messages["#{@authorized_user.id}"].nil? ? 0 : $messages["#{@authorized_user.id}"].count%></span></a></p>
+	  </div>
+	</div>
+	<div class="container-fluid">
+		<%=yield%>
+	</div>
+</body>
+</html>

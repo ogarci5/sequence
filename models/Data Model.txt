@@ -1,0 +1,70 @@
+class Client
+	include DataMapper::Resource
+	property :id, Serial
+	property :first_name, String
+	property :last_name, String
+	property :address, String
+	property :email, String
+	property :phone, String
+	property :organization, String
+	property :special_comment, Text, :lazy => false
+end
+
+class Job
+	include DataMapper::Resource
+	property :id, Serial
+	property :name, String
+	property :objective, Text, :lazy => false
+	property :payment_type, String
+end
+
+class Invoice
+	include DataMapper::Resource
+	property :id, Serial
+	property :name, String
+	property :amount, Integer
+end
+
+class Note
+	include DataMapper::Resource
+	property :id, Serial
+	property :subject, String
+	property :body, Text, :lazy => false
+	property :created_at, DateTime
+	property :category, String
+end
+
+class Story
+	include DataMapper::Resource
+	property :id, Serial
+	property :name, String
+	property :description, Text, :lazy => false
+	property :created_by, String
+	property :created_at, DateTime
+	property :updated_at, DateTime
+	property :stage, String
+end
+
+class Task
+	include DataMapper::Resource
+	property :id, Serial
+	property :name, String
+	property :description, Text, :lazy => false
+	property :difficulty, Integer
+	property :completed, Boolean
+	property :dependency, String
+	property :status, String
+end
+
+class User
+	include DataMapper::Resource
+	property :id, Serial
+	property :name, String
+	property :password, String
+	property :first_name, String
+	property :last_name, String
+	property :address, String
+	property :email, String
+	property :phone, String
+	property :email_updates, Boolean
+end

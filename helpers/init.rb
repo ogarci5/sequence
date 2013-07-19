@@ -1,0 +1,5 @@
+dir = Dir.pwd + '/helpers/'
+require dir + 'auth'
+require dir + 'email'
+require dir + 'invoice'
+require dir + 'message'

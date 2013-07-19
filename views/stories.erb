@@ -1,0 +1,371 @@
+<style>
+.highlight {
+	background-color:#39D000;
+	color:#ffffff;
+}
+.lit {
+	background-color:#369f00;
+	color:#ffffff;
+}
+.info-table th {
+	border-bottom: 1px solid #dddddd;
+	border-left: 0px solid #ffffff;
+	border-right: 0px solid #ffffff;
+	border-top: 0px solid #ffffff;
+}
+.info-table {
+	border-radius: 0;
+}
+.info-table td {
+	border: 0px solid #ffffff;
+        border-radius: 0;
+}
+#info-data-dev.unbordered, #info-data-dev.unbordered tr, #info-data-dev.unbordered td, 
+#info-data-test.unbordered, #info-data-test.unbordered tr, #info-data-test.unbordered td, 
+#info-data-pro.unbordered, #info-data-pro.unbordered tr, #info-data-pro.unbordered td {
+	-webkit-border-radius: 0 0 0 0;
+	-moz-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+}
+</style>
+<div class="modal hide fade" id="addStory" tabindex="-1" role="dialog" aria-labelledby="addStoryLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="addStoryLabel">Add Story</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/stories/create" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="name">Name:</label>
+		  <div class="controls">
+		    <input type="text" id="name" name="name">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="stage">Stage:</label>
+		  <div class="controls">
+		    <select id="stage" name="stage">
+		    	<option></option>
+		    	<%@stages.each do |stage|%>
+		    			<option><%=stage%></option>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="job">Job:</label>
+		  <div class="controls">
+		    <select id="job" name="job">
+		    	<option></option>
+		    	<%@jobs.each do |job|%>
+		    		<option><%=job.name%></option>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="description">Description:</label>
+		  <div class="controls">
+		    <textarea id="description" name="description" rows="3" style="resize:none;"></textarea>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add">
+  </div>
+  </form>
+</div>
+<%@stories.each do |story|%>
+<div class="modal hide fade" id="editStory<%=story.id%>" tabindex="-1" role="diastory" aria-labelledby="editStory<%=story.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editStory<%=story.id%>Label">Edit Story</h3>
+  </div>
+  <div class="modal-body">
+  <form class="form-horizontal" action="/stories/update/<%=story.id%>" method="post">
+    <div class="control-group">
+		  <label class="control-label" for="name">Name:</label>
+		  <div class="controls">
+		    <input type="text" id="name" name="name" value="<%=story.name%>">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="stage">Stage:</label>
+		  <div class="controls">
+		    <select id="stage" name="stage">
+		    	<%@stages.each do |stage|%>
+		    		<%if story.stage == stage%>
+		    			<option selected="selected"><%=stage%></option>
+		    		<%else%>
+		    			<option><%=stage%></option>
+		    		<%end%>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="job">Job:</label>
+		  <div class="controls">
+		    <select id="job" name="job">
+		    	<%@jobs.each do |job|%>
+		    		<%if story.job.name == job.name%>
+		    			<option selected="selected"><%=job.name%></option>
+		    		<%else%>
+		    			<option><%=job.name%></option>
+		    		<%end%>
+		    	<%end%>
+		    </select>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="description">Description:</label>
+		  <div class="controls">
+		    <textarea id="description" name="description" rows="3" style="resize:none;"><%=story.description%></textarea>
+		  </div>
+		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </div>
+  </form>
+</div>
+<div class="modal hide fade" id="deleteStory<%=story.id%>" tabindex="-1" role="diastory" aria-labelledby="deleteStory<%=story.id%>Label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="deleteStory<%=story.id%>Label">Delete Story <%=story.name%></h3>
+  </div>
+  <div class="modal-body">
+  	<p>Are you sure you want to delete "<%=story.name%>."</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+    <a class="btn" href="/stories/destroy/<%=story.id%>" aria-hidden="true">Yes</a>
+  </div>
+  </form>
+</div>
+<%end%>
+<div class="row-fluid">
+	<div class="span6">
+		<table class="table table-bordered" style="width:95%;margin-top:30px;margin-left:30px;">
+			<tr>
+				<th rowspan="0">Stories</th>
+			</tr>
+			<tr>
+				<td>
+				<div style="margin:0px;">
+					<ul class="nav nav-tabs" style="margin:0px;" id="stage-tabs">
+						<li id="#dev" class="active"><a href="#tab1" data-toggle="tab">Development</a></li>
+						<li id="#test"><a href="#tab2" data-toggle="tab">Testing</a></li>
+						<li id="#pro"><a href="#tab3" data-toggle="tab">Production</a></li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<table id="info-header"class="info-table" width="100%">
+						<tr>
+							<th>Name</th>
+							<th>Job</th>
+							<th>Progress</th>
+						</tr>
+					</table>
+					<div class="tab-pane active" id="tab1">
+						<div style="overflow:auto;height:400px;">
+							<table id="info-data-dev" class="info-table unbordered" width="100%" style="height:100%">
+								<%@stories.all(:stage => "Development").each do |story|%>
+								<tr style="height:40px;" class="hover"  id="story-<%=story.id%>" onclick="show(<%=story.id%>);">
+									<td nowrap="nowrap"><%=story.name%></td>
+									<td nowrap="nowrap"><%=story.job.name%></td>
+									<td style="width:100%">
+										<div style="height:10px;margin-top:5px;margin-bottom:0px;" class="progress">
+	  									<div id="storyPro-<%=story.id%>" class="bar" style="width:<%=story.progress%>%"></div>
+										</div>
+									</td>
+									<td nowrap="nowrap">
+										<a href="#deleteStory<%=story.id%>" role="button" data-toggle="modal" class="close pull-right">&times;</a>
+										<a href="#editStory<%=story.id%>" role="button" data-toggle="modal"><i class="icon-pencil pull-right" style="margin-right:3px;"></i></a>
+									</td>
+								</tr>
+								<%end%>
+								<tr style="height:100%"><td></td></tr>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="tab2">
+						<div style="overflow:auto;height:400px;">
+							<table id="info-data-test" class="info-table unbordered" width="100%" style="height:100%">
+								<%@stories.all(:stage => "Testing").each do |story|%>
+								<tr style="height:40px;" class="hover"  id="story-<%=story.id%>" onclick="show(<%=story.id%>);">
+									<td nowrap="nowrap"><%=story.name%></td>
+									<td nowrap="nowrap"><%=story.job.name%></td>
+									<td style="width:100%">
+										<div style="height:10px;margin-top:5px;margin-bottom:0px;" class="progress">
+	  									<div id="storyPro-<%=story.id%>" class="bar" style="width:<%=story.progress%>%"></div>
+										</div>
+									</td>
+									<td nowrap="nowrap">
+										<a href="#deleteStory<%=story.id%>" role="button" data-toggle="modal" class="close pull-right">&times;</a>
+										<a href="#editStory<%=story.id%>" role="button" data-toggle="modal"><i class="icon-pencil pull-right" style="margin-right:3px;"></i></a>
+									</td>
+								</tr>
+								<%end%>
+								<tr style="height:100%"><td></td></tr>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="tab3">
+						<div style="overflow:auto;height:400px;">
+							<table id="info-data-pro" class="info-table unbordered" width="100%" style="height:100%">
+								<%@stories.all(:stage => "Production").each do |story|%>
+								<tr style="height:40px;" class="hover"  id="story-<%=story.id%>" onclick="show(<%=story.id%>);">
+									<td nowrap="nowrap"><%=story.name%></td>
+									<td nowrap="nowrap"><%=story.job.name%></td>
+									<td style="width:100%">
+										<div style="height:10px;margin-top:5px;margin-bottom:0px;" class="progress">
+	  									<div id="storyPro-<%=story.id%>" class="bar" style="width:<%=story.progress%>%"></div>
+										</div>
+									</td>
+									<td nowrap="nowrap">
+										<a href="#deleteStory<%=story.id%>" role="button" data-toggle="modal" class="close pull-right">&times;</a>
+										<a href="#editStory<%=story.id%>" role="button" data-toggle="modal"><i class="icon-pencil pull-right" style="margin-right:3px;"></i></a>
+									</td>
+								</tr>
+								<%end%>
+								<tr style="height:100%"><td></td></tr>
+							</table>
+						</div>
+					</div>
+					<table id="info-footer" class="info-table" width="100%">
+						<tr>
+							<td><a href="#addStory" role="button" class="btn btn-small pull-right" data-toggle="modal">Add Story</a></td>
+						</tr>
+					</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="span6">
+		<table class="table table-bordered pull-right" style="width:95%;margin-top:30px;margin-right:30px;height:572px;">
+			<tr>
+				<th rowspan="0">Tasks</th>
+			</tr>
+			<tr style="height:100%">
+				<td id="show"></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script>
+function show(id){
+  if($("#story-"+id).hasClass("lit")){
+  	$("tr.hover").switchClass('lit','',150);
+  	$("#show").empty();
+  }
+  else {
+  	$("tr.hover").switchClass('lit','',150);
+  	$("#story-"+id).switchClass('','lit',150);
+  	$("#show").load("/stories/"+id+"/tasks");
+  }
+}
+
+$(".hover").hover(function () {
+	if (!$(this).hasClass('animated')) {
+		if(!$(this).hasClass('lit')){
+			$(this).dequeue().stop().switchClass('','highlight',150);
+		}
+	}
+},
+	function () {
+		$(this).addClass('animated').switchClass('highlight','',150, function() {
+			$(this).removeClass('animated').dequeue();
+		});
+});
+
+$('a[data-toggle="tab"]').on('shown', function (e) {
+	var tableHeader = $("#info-header tr:first").children();
+	var theaderArray = $.makeArray(tableHeader);
+	var tabReference = $($(this).attr("href")).children("div").children("table").attr("id")
+	
+	if(tabReference == "info-data-dev"){
+		var tableDataDev = $("#info-data-dev tr:first").children();
+		var tdataDevArray = $.makeArray(tableDataDev);
+		
+		for(var i=0;i<tdataDevArray.length-2;i++){
+			$(theaderArray[i]).width($(tdataDevArray[i]).width());
+		}
+		$(theaderArray[tdataDevArray.length-1]).width($(tdataDevArray[tdataDevArray.length-1]).width());
+	}
+	else if(tabReference == "info-data-test"){
+		var tableDataTest = $("#info-data-test tr:first").children();
+		var tdataTestArray = $.makeArray(tableDataTest);
+	
+		for(var i=0;i<tdataTestArray.length-2;i++){
+			$(theaderArray[i]).width($(tdataTestArray[i]).width());
+		}
+		$(theaderArray[tdataTestArray.length-1]).width($(tdataTestArray[tdataTestArray.length-1]).width());
+	}
+	else if(tabReference == "info-data-pro"){
+		var tableDataPro = $("#info-data-pro tr:first").children();
+		var tdataProArray = $.makeArray(tableDataPro);
+		
+		for(var i=0;i<tdataProArray.length-2;i++){
+			$(theaderArray[i]).width($(tdataProArray[i]).width());
+		}
+		$(theaderArray[tdataProArray.length-1]).width($(tdataProArray[tdataProArray.length-1]).width());
+	}
+});
+
+$(document).ready(function() {
+	var bar = $(".bar");
+	var progress = $.makeArray(bar);
+	var tableDataDev = $("#info-data-dev tr:first").children();
+	var tdataDevArray = $.makeArray(tableDataDev);
+	var tableHeader = $("#info-header tr:first").children();
+	var theaderArray = $.makeArray(tableHeader);
+	
+	for(var i=0;i<tdataDevArray.length-2;i++){
+		$(theaderArray[i]).width($(tdataDevArray[i]).width());
+	}
+	$(theaderArray[tdataDevArray.length-1]).width($(tdataDevArray[tdataDevArray.length-1]).width());
+	for(var i = 0;i<progress.length;i++){
+		var width = parseInt(progress[i].style.width.replace("%", ""));
+		$(progress[i]).css("background-image", "-moz-linear-gradient(top, #"+barColor(width)[0][0]+barColor(width)[1][0]+"00, #"+barColor(width)[0][1]+barColor(width)[1][1]+"00)");
+		$(progress[i]).css("background-image", "-webkit-gradient(linear, 0 0, 0 100%, from(#"+barColor(width)[0][0]+barColor(width)[1][0]+"00), to(#"+barColor(width)[0][1]+barColor(width)[1][1]+"00))");
+		$(progress[i]).css("background-image", "-webkit-linear-gradient(top, #"+barColor(width)[0][0]+barColor(width)[1][0]+"00, #"+barColor(width)[0][1]+barColor(width)[1][1]+"00)");
+		$(progress[i]).css("background-image", "-o-linear-gradient(top, #"+barColor(width)[0][0]+barColor(width)[1][0]+"00, #"+barColor(width)[0][1]+barColor(width)[1][1]+"00)");
+		$(progress[i]).css("background-image", "linear-gradient(to bottom, #"+barColor(width)[0][0]+barColor(width)[1][0]+"00, #"+barColor(width)[0][1]+barColor(width)[1][1]+"00)");
+		$(progress[i]).css("filter", "progid:dximagetransform.microsoft.gradient(startColorstr='#"+barColor(width)[0][0]+barColor(width)[1][0]+"00', endColorstr='#"+barColor(width)[0][1]+barColor(width)[1][1]+"00', GradientType=0)");
+	}
+	
+	if(getQueryStr("task") != undefined){
+		if(getQueryStr("stage") == "Testing"){
+			$(function () {
+    		$('#stage-tabs a[href="#tab2"]').tab('show');
+  		})
+		}
+		else if(getQueryStr("stage") == "Production"){
+			$(function () {
+    		$('#stage-tabs a[href="#tab3"]').tab('show');
+  		})
+		}
+		show(parseInt(getQueryStr("task")));
+	}
+	else if(getQueryStr("story") != undefined){
+		if(getQueryStr("stage") == "Testing"){
+			$(function () {
+    		$('#stage-tabs a[href="#tab2"]').tab('show');
+  		})
+		}
+		else if(getQueryStr("stage") == "Production"){
+			$(function () {
+    		$('#stage-tabs a[href="#tab3"]').tab('show');
+  		})
+		}
+		show(parseInt(getQueryStr("story")));
+	}
+});
+</script>

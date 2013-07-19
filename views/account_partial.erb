@@ -1,0 +1,43 @@
+<form method="post" action="/account/update/<%=@user_partial.id%>">
+<table class="norm">
+<tr>
+	<td>Full Name: </td>
+	<td>
+		<input style="width:93px;"type="text" name="first_name" placeholder="First Name" value="<%=@user_partial.first_name%>">
+		<input style="width:93px;display:inline-block;margin-left:4px;"type="text" name="last_name" placeholder="Last Name" value="<%=@user_partial.last_name%>">
+	</td>
+</tr>
+<tr>
+	<td>Address: </td>
+	<td>
+    <input type="text" name="address" value="<%=@user_partial.address%>">
+  </td>
+</tr>
+<tr>
+  <td>Phone: </td>
+  <td>
+    <input type="text" name="phone" value="<%=@user_partial.phone%>">
+  </td>
+</tr>
+<tr>
+  <td>Email: </td>
+  <td>
+    <input type="text" name="email" value="<%=@user_partial.email%>">
+  </td>
+</tr>
+<tr>
+  <td></td>
+  <td>
+  	<div class="btn-group pull-right">
+  		<a class="btn btn-small" onclick="remove();">Back</a>
+			<input type="submit" class="btn btn-small">
+		</div>
+	</td>
+</tr>
+</table>
+</form>
+<script>
+function remove(){
+	$('#profile').load('/partial/account/remove/<%=@user_partial.id%>');
+}
+</script>

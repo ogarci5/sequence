@@ -1,0 +1,71 @@
+<div class="row-fluid">
+	<div class="span2">
+	<table class="table table-bordered" style="margin-top:30px;width:100%;">
+		<tr>
+			<td style="text-align:center;">
+				<ul class="nav nav-pills nav-stacked" style="margin:0px;">
+					<li id="nav-messages"><a href="/account/<%=@authorized_user.name%>/messages">Messages</a></li>
+					<li id="nav-profile"><a href="/account/<%=@authorized_user.name%>/profile">Profile</a></li>
+					<li id="nav-settings"><a href="/account/<%=@authorized_user.name%>/settings">Settings</a></li>
+					<li id="nav-statistics"><a href="/account/<%=@authorized_user.name%>/statistics">Statistics</a></li>
+					<%if @admin.nil? == false%>
+						<li id="nav-users"><a href="/account/<%=@authorized_user.name%>>/users">Users</a></li>
+					<%end%>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<div class="span10">
+		<table class="table table-bordered" style="margin-top:30px;">
+			<tr>
+				<td align="center">
+				<div id="password">
+					<table class="norm">
+						<tr>
+							<td><a class="pull-left" onclick="editPassword();">Change Password</a></td>
+						</tr>
+					</table>
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox">
+    						<input type="checkbox" onclick="if(this.checked){check()}else if(this.checked == false){uncheck()}" <%=@user.email_updates ? 'checked="checked"' : ''%>> Email me updates
+  						</label>
+  					</div>
+					</div>
+				</td>
+			</tr>	
+		</table>
+	</div>
+</div>
+<script>
+function check(){
+	$.ajax({
+  	url: "/partial/account/"+<%=@user.id%>,
+  	type: "POST",
+  	data: {checked : true},
+  	dataType: "html"
+	});
+}
+function uncheck(){
+	$.ajax({
+  	url: "/partial/account/"+<%=@user.id%>,
+  	type: "POST",
+  	data: {checked : false},
+  	dataType: "html"
+	});
+}
+function editPassword(){
+	$.ajax({
+    url: "/partial/account/change_password/<%=@user.id%>"
+  }).done(function( html ) {
+  	$("#password").empty();
+    $("#password").append(html);
+  });
+}
+</script>
